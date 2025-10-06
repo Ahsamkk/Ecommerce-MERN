@@ -1,14 +1,18 @@
-//import { useState } from 'react'
-import './App.css'
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+import UserLayout from './components/Layout/UserLayout'
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+  <Route path="/" element={<UserLayout/>}>
+    
+  </Route>
+))
 
 function App() {
-  //const [count, setCount] = useState(0)
 
   return (
     <>
-       <h1 class="text-3xl font-bold underline text-amber-300">
-        Hello world!
-      </h1>
+      <RouterProvider router={router}/>
     </>
   )
 }
