@@ -5,7 +5,7 @@ import SearchBar from './SearchBar'
 import CartDrawer from '../Layout/CartDrawer'
 import { IoMdClose } from 'react-icons/io'
 
-function Navbar() {
+const Navbar = () => {
 
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [navDrawerOpen, setNavDrawerOpen] = useState(false)

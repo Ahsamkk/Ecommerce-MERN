@@ -1,7 +1,7 @@
 import React from 'react'
 import { RiDeleteBin3Line } from 'react-icons/ri'
 
-function CartContents() {
+const CartContents = () => {
 
   const cartProducts = [
     {
