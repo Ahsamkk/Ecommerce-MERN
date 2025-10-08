@@ -1,29 +1,74 @@
 import { useEffect, useState } from "react"
+import { toast } from "sonner"
+import ProductGrid from "./ProductGrid";
 
 const selectedProduct = {
-    name: "Stylish Jacker",
-    price: 120,
-    originalPrice: 150,
-    description: "This is a stylish jacket perfect for any occasion",
-    brand: "FashionBrand",
-    material: "Leather",
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["Red", "Black"],
+  name: "Stylish Jacker",
+  price: 120,
+  originalPrice: 150,
+  description: "This is a stylish jacket perfect for any occasion",
+  brand: "FashionBrand",
+  material: "Leather",
+  sizes: ["S", "M", "L", "XL"],
+  colors: ["Red", "Black"],
+  images: [
+    {
+      url: "https://picsum.photos/500/500?random=1",
+      altText: "Stylish Jacket 1",
+    },
+    {
+      url: "https://picsum.photos/500/500?random=2",
+      altText: "Stylish Jacket 2",
+    },
+  ]
+}
+
+const similarProducts = [
+  {
+    _id: 1,
+    name: "Product 1",
+    price: 100,
     images: [
       {
-        url: "https://picsum.photos/500/500?random=1",
-        altText: "Stylish Jacket 1",
+        url: "https://picsum.photos/200/200?random=3",
       },
+    ],
+  },
+  {
+    _id: 2,
+    name: "Product 2",
+    price: 100,
+    images: [
       {
-        url: "https://picsum.photos/500/500?random=2",
-        altText: "Stylish Jacket 2",
+        url: "https://picsum.photos/200/200?random=4",
       },
-    ]
-  }
+    ],
+  },
+  {
+    _id: 3,
+    name: "Product 3",
+    price: 100,
+    images: [
+      {
+        url: "https://picsum.photos/200/200?random=5",
+      },
+    ],
+  },
+  {
+    _id: 4,
+    name: "Product 4",
+    price: 100,
+    images: [
+      {
+        url: "https://picsum.photos/200/200?random=6",
+      },
+    ],
+  },
+];
 
 const ProductDetails = () => {  
 
-  const [mainImage, setMainImage] = useState("")
+  const [mainImage, setMainImage] = useState(selectedProduct.images[0]?.url || "")
   const [selectedSize, setSelectedSize] = useState("")
   const [selectedColor, setSelectedColor] = useState("")
   const [quantity, setQuantity] = useState(1)
@@ -34,11 +79,25 @@ const ProductDetails = () => {
     if(action === "minus" && quantity > 1) setQuantity((prev) => prev - 1)
   }
 
+  const handleAddToCart = () => {
+    if(!selectedSize || !selectedColor){
+      toast.error("Please select a size and color before adding to cart.")
+      return ;
+    }
+
+    setIsButtonDisabled(true);
+
+    setTimeout( () => {
+      toast.success("Product added to cart!")
+      setIsButtonDisabled(false);
+    }, 500)
+  }
+
   useEffect( () => {
     if(selectedProduct?.images?.length > 0){
       setMainImage(selectedProduct.images[0].url)
     }
-  }, [selectedProduct])
+  }, [])
 
   return (
     <div className="p-6">
@@ -110,7 +169,7 @@ const ProductDetails = () => {
                   <button 
                     key={size} 
                     onClick={() => setSelectedSize(size)}
-                    className={`px-4 py-2 rounded border ${selectedSize === size ? "bg-black text-white" : ""}`}
+                    className={`px-4 py-2 rounded border ${selectedSize === size ? "bg-black text-white" : "text-black"}`}
                   >
                     {size}
                   </button>
@@ -137,8 +196,12 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            <button className="bg-black text-white py-2 px-6 rounded w-full mb-4">
-              ADD TO CART
+            <button 
+              onClick={handleAddToCart} 
+              disabled={isButtonDisabled}
+              className={`bg-black text-white py-2 px-6 rounded w-full mb-4 ${isButtonDisabled ? "cursor-not-allowed bg-black/50" : "hover: bg-gray-900"}`}
+            >
+              {isButtonDisabled ? "Adding..." : "ADD TO CART"}
             </button>
 
             <div className="mt-10 text-gray-700">
@@ -158,6 +221,12 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
+        <div className="mt-20 border-black rounded-lg">
+          <h2 className="text-4xl text-center font-bold mb-4 mt-5">
+            You May Also Like
+          </h2>
+          <ProductGrid products={similarProducts} />
+        </div>    
       </div>
     </div>
   )
