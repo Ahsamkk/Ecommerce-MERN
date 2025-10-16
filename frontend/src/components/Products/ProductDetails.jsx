@@ -154,7 +154,7 @@ const ProductDetails = () => {
                   <button 
                     key={color} 
                     onClick={() => setSelectedColor(color)}
-                    className={`w-8 h-8 rounded-full border ${selectedColor === color ? "border-4 border-black" : "border-gray-300"}` }
+                    className={`w-8 h-8 rounded-full border cursor-pointer ${selectedColor === color ? "border-4 border-black" : "border-gray-300"}` }
                     style={{backgroundColor: color.toLocaleLowerCase(), filter:"brightness(0.5)"}}
                   >
                   </button>
@@ -169,7 +169,7 @@ const ProductDetails = () => {
                   <button 
                     key={size} 
                     onClick={() => setSelectedSize(size)}
-                    className={`px-4 py-2 rounded border ${selectedSize === size ? "bg-black text-white" : "text-black"}`}
+                    className={`px-4 py-2 rounded border cursor-pointer ${selectedSize === size ? "bg-black text-white" : "text-black"}`}
                   >
                     {size}
                   </button>
@@ -182,14 +182,14 @@ const ProductDetails = () => {
               <div className="flex items-center space-x-4 mt-2">
                 <button 
                   onClick={() => handleQuantityChange("minus")}
-                  className="px-2 py-1 bg-gray-200 rounded text-lg"
+                  className="px-2 py-1 bg-gray-200 rounded text-lg cursor-pointer"
                 >
                   -
                 </button>
                 <span className="text-lg">{quantity}</span>
                 <button
                   onClick={() => handleQuantityChange("plus")}
-                 className="px-2 py-1 bg-gray-200 rounded text-lg"
+                 className="px-2 py-1 bg-gray-200 rounded text-lg cursor-pointer"
                 >
                   +
                 </button>
@@ -199,7 +199,7 @@ const ProductDetails = () => {
             <button 
               onClick={handleAddToCart} 
               disabled={isButtonDisabled}
-              className={`bg-black text-white py-2 px-6 rounded w-full mb-4 ${isButtonDisabled ? "cursor-not-allowed bg-black/50" : "hover: bg-gray-900"}`}
+              className={`bg-black text-white py-2 px-6 rounded w-full mb-4 cursor-pointer ${isButtonDisabled ? "cursor-not-allowed bg-black/50" : "hover: bg-gray-900"}`}
             >
               {isButtonDisabled ? "Adding..." : "ADD TO CART"}
             </button>

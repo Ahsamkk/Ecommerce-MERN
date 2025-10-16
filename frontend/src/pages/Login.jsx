@@ -26,7 +26,7 @@ const Login = () => {
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-12">
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-md bg-white p-8 rounded-lg border-2 border-black shadow-md"
+          className="w-full max-w-md bg-white p-8 rounded-lg border-2 border-gray-300 shadow-md"
         >
           <div className="flex justify-center mb-6">
             <h2 className="text-2xl font-medium">"Rabbit"</h2>
@@ -41,7 +41,7 @@ const Login = () => {
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 text-white border rounded-xl outline-none bg-black"
+              className="w-full p-2 border rounded-lg"
               placeholder="Enter your email address"
             />
           </div>
@@ -52,16 +52,16 @@ const Login = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 text-white border rounded-xl outline-none bg-black"
+              className="w-full p-2 border rounded-lg"
               placeholder="Enter your password"
             />
           </div>
 
           {/* Centering the Button */}
-          <div className="flex justify-center">
+          <div className="flex justify-center ">
             <button
               type="submit"
-              className="bg-black text-white p-2 px-6 rounded-lg font-semibold hover:bg-gray-800 transition"
+              className="w-full bg-black text-white p-2 px-6 rounded-lg font-semibold cursor-pointer hover:bg-gray-800 transition"
             >
               Sign In
             </button>
