@@ -40,9 +40,9 @@ const CartContents = () => {
               </div>
             </div>
           </div>
-          <div className="a">
+          <div className="">
             <p>$ {product.price.toLocaleString()}</p>
-            <button>
+            <button className="cursor-pointer">
               <RiDeleteBin3Line className="h-6 w-6 mt-2 text-red-600" />
             </button>
           </div>
