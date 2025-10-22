@@ -1,0 +1,40 @@
+# Node.js / npm
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment variable files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# VS Code settings
+.vscode/
+
+# Mac specific files
+*.swp
+
+# Build / dist directories
+/dist
+/build
+
+# Test coverage folder (if using tools like Jest)
+coverage/
+
+# Temporary files (including editor backup files)
+*.bak
+*.swp
+*~
+
+# Dependency directories (including yarn.lock for Yarn users)
+package-lock.json
+yarn.lock
