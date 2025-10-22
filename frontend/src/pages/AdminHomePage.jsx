@@ -7,7 +7,7 @@ const orders = [
       name: "John Doe",
     },
     totalPrice: 120,
-    status: "Procession",
+    status: "Processing",
   },
   {
     _id: 123123,
@@ -49,6 +49,42 @@ const AdminHomePage = () => {
           <Link to="/admin/products" className="text-blue-500 hover:underline">
             Manage Products
           </Link>
+        </div>
+      </div>
+      <div className="mt-6">
+        <h2 className="text-2xl font-bold mb-4">Recent Orders</h2>
+         <div className="overflow-x-auto">
+          <table className="min-w-full text-left text-gray-500">
+            <thead className="bg-gray-100 text-xs uppercase text-gray-700">
+              <tr>
+                <th className="py-3 px-4">Oder ID</th>
+                <th className="py-3 px-4">User</th>
+                <th className="py-3 px-4">Total Price</th>
+                <th className="py-3 px-4">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.length > 0 ? (
+                orders.map((order) => (
+                  <tr
+                    key={orders._id}
+                    className="border-b border-gray-300 hover:bg-gray-50 cursor-pointer"
+                  >
+                    <td className="p-4">#{order._id}</td>
+                    <td className="p-4">{order.user.name}</td>
+                    <td className="p-4">{order.totalPrice}</td>
+                    <td className="p-4">{order.status}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="p-4 text-center text-gray-500">
+                    No recent orders found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
