@@ -1,0 +1,24 @@
+import { Router } from "express";
+import { verifyJWT } from "../middlewares/auth.middleware";
+import {
+  getUserProfile,
+  loginUser,
+  registerUser,
+} from "../controllers/user.controller";
+
+const router = Router();
+
+//@route POST /api/users/register
+//@desc Register a new user
+//@access Public
+router.route("/register").post(registerUser);
+
+//@desc Authenticate user
+//@access Public
+router.route("/login").post(loginUser);
+
+//@desc Get logged-in user's profile
+//@access Private
+router.route("/profile").get(verifyJWT, getUserProfile);
+
+export default router;
