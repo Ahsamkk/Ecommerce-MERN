@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import aggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const productSchema = new mongoose.Schema(
   {
@@ -18,7 +19,6 @@ const productSchema = new mongoose.Schema(
     },
     discountedPrice: {
       type: Number,
-      required: true,
     },
     countInStock: {
       type: Number,
@@ -110,5 +110,7 @@ const productSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+productSchema.plugin(aggregatePaginate);
 
 export const Product = mongoose.model("Product", productSchema);

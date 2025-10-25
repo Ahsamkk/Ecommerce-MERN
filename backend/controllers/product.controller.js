@@ -150,4 +150,164 @@ const deleteProduct = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, deletedProduct, "Product deleted Successfully"));
 });
 
-export { createProduct, updateProduct, deleteProduct };
+const getProducts = asyncHandler(async (req, res) => {
+  const {
+    collection,
+    size,
+    color,
+    gender,
+    minPrice,
+    maxPrice,
+    sortBy,
+    search,
+    category,
+    material,
+    brand,
+    limit,
+  } = req.query;
+
+  let query = {};
+
+  //filter logic
+  if (collection && collection.toLowerCase() !== "all") {
+    query.collections = collection;
+  }
+
+  if (category && category.toLowerCase() !== "all") {
+    query.category = category;
+  }
+
+  if (material) {
+    query.material = { $in: material.split(",") };
+  }
+
+  if (brand) {
+    query.brand = { $in: brand.split(",") };
+  }
+
+  if (size) {
+    query.sizes = { $in: size.split(",") };
+  }
+
+  if (color) {
+    query.colors = { $in: [color] };
+  }
+
+  if (gender) {
+    query.gender = gender;
+  }
+
+  if (minPrice || maxPrice) {
+    query.price = {};
+    if (minPrice) query.price.$gte = Number(minPrice);
+    if (maxPrice) query.price.$lte = Number(maxPrice);
+  }
+
+  if (search) {
+    query.$or = [
+      { name: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+    ];
+  }
+
+  //Sort Logic
+  let sort = {};
+  if (sortBy) {
+    switch (sortBy) {
+      case "priceAsc":
+        sort = { price: 1 };
+        break;
+      case "priceDesc":
+        sort = { price: -1 };
+        break;
+      case "popularity":
+        sort = { rating: -1 };
+        break;
+      default:
+        break;
+    }
+  }
+
+  let products = await Product.find(query)
+    .sort(sort)
+    .limit(Number(limit) || 0);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, products, "Products fetched successfully"));
+});
+
+const getBestSeller = asyncHandler(async (req, res) => {
+  const bestSeller = await Product.findOne().sort({ rating: -1 });
+  if (!bestSeller) {
+    throw new ApiError(404, "Best Seller product not found");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        bestSeller,
+        "Best seller products fetched successfully"
+      )
+    );
+});
+
+const getNewArrivals = asyncHandler(async (req, res) => {
+  const newArrivals = await Product.find().sort({ createdAt: -1 }).limit(8);
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, newArrivals, "New Arrivals fetched successfully")
+    );
+});
+
+const getProductById = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (!product) {
+    throw new ApiError(404, "Product not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, product, "Product fetched successfully"));
+});
+
+const getSimilarProducts = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const product = await Product.findById(id);
+
+  if (!product) {
+    throw new ApiError(404, "Product not found");
+  }
+
+  const similarProducts = await Product.find({
+    _id: { $ne: id },
+    gender: product.gender,
+    category: product.category,
+  }).limit(4);
+
+  res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        similarProducts,
+        "Similar products fetched successfully"
+      )
+    );
+});
+
+export {
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  getProducts,
+  getBestSeller,
+  getNewArrivals,
+  getProductById,
+  getSimilarProducts,
+};
