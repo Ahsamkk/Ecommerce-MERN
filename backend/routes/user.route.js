@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { verifyJWT } from "../middlewares/auth.middleware";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 import {
   getUserProfile,
   loginUser,
   registerUser,
-} from "../controllers/user.controller";
+  refreshAccessToken,
+  logoutUser,
+} from "../controllers/user.controller.js";
 
 const router = Router();
 
@@ -20,5 +22,11 @@ router.route("/login").post(loginUser);
 //@desc Get logged-in user's profile
 //@access Private
 router.route("/profile").get(verifyJWT, getUserProfile);
+
+//@desc Logout the user
+router.route("/logout").post(verifyJWT, logoutUser);
+
+//@desc Refresh Tokens
+router.route("/refresh-token").post(refreshAccessToken);
 
 export default router;
