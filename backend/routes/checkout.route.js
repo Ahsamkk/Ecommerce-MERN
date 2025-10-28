@@ -7,6 +7,6 @@ const router = Router();
 //@route POST /api/checkout
 //@desc Create a new checkout session
 //@access Private
-router.post("/", createCheckout);
+router.post("/", verifyJWT, createCheckout);
 
 export default router;
