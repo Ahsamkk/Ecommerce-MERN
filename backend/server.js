@@ -7,6 +7,9 @@ import userRouter from "./routes/user.route.js";
 import productRouter from "./routes/product.route.js";
 import cartRouter from "./routes/cart.route.js";
 import checkoutRouter from "./routes/checkout.route.js";
+import orderRouter from "./routes/order.route.js";
+import uploadRouter from "./routes/upload.route.js";
+import subscriberRouter from "./routes/subscriber.route.js";
 
 const app = express();
 
@@ -34,6 +37,9 @@ app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/checkout", checkoutRouter);
+app.use("/api/orders", orderRouter);
+app.use("/api/upload", uploadRouter);
+app.use("/api/subscribe", subscriberRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
