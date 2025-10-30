@@ -18,6 +18,9 @@ import OrderManagement from './components/Admin/OrderManagement'
 import EditProductPage from './components/Admin/EditProductPage'
 import AdminHomePage from './pages/AdminHomePage'
 
+import {Provider} from "react-redux"
+import store from "./redux/store.js"
+
 const router = createBrowserRouter(
   createRoutesFromElements(
   <>
@@ -48,10 +51,10 @@ const router = createBrowserRouter(
 const App = () => {
 
   return (
-    <>
+    <Provider store={store}>
       <Toaster position="top-right" duration={1000} />
       <RouterProvider router={router}/>
-    </>
+    </Provider>
   )
 }
 

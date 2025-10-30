@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
 import login from "../assets/login.webp";
 import { useState } from "react";
-//import { useDispatch } from "react-redux";
 import {toast} from "sonner"  
-// import { loginUser } from "../redux/authSlice";
+import { loginUser } from "../redux/slices/authSlice.js";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //dispatch(loginUser({ email, password }));
+    dispatch(loginUser({ email, password }));
     try {
       toast.success("User Logined Successfully");
     } catch (error) {
@@ -57,7 +57,6 @@ const Login = () => {
             />
           </div>
 
-          {/* Centering the Button */}
           <div className="flex justify-center ">
             <button
               type="submit"
