@@ -23,14 +23,14 @@ const generateAccessAndRefreshTokens = async (userId) => {
 };
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, password, role = "customer" } = req.body;
+  const { name, email, password, role = "customer" } = req.body;
 
-  if ([email, username, password].some((field) => field?.trim() === "")) {
+  if ([email, name, password].some((field) => field?.trim() === "")) {
     throw new ApiError(400, "All fields are required");
   }
 
   const existedUser = await User.findOne({
-    $or: [{ username }, { email }],
+    $or: [{ name }, { email }],
   });
 
   if (existedUser) {
@@ -38,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    username,
+    name,
     email,
     password,
     role,
@@ -96,7 +96,7 @@ const loginUser = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        { loggedInUser, accessToken, refreshToken },
+        { user: loggedInUser, accessToken, refreshToken },
         "User logged in successfully"
       )
     );

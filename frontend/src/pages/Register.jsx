@@ -33,13 +33,13 @@ const Register = () => {
           onSubmit={handleSubmit}
         >
           <div className="flex justify-center mb-6">
-            <h2 className="text-xl font-rabbit-saadhu font-medium">Rabbit</h2>
+            <h2 className="text-xl font-primary font-medium">Rabbit</h2>
           </div>
           <h2 className="text-2xl font-bold text-center mb-6">
-            Let's explore in deep~
+            Let's explore more!
           </h2>
           <p className="text-center mb-6">
-            Enter Your Username & Password to login
+            Enter Your Email & Password to Register
           </p>
           <div className="mb-4">
             <label className="block text-sm font-semibold mb-2">Name</label>
@@ -73,7 +73,7 @@ const Register = () => {
           </div>
           <button
             type="submit"
-            className="cursor-pointer w-full bg-rabbit-red text-white p-2 rounded-lg font-semibold hover:bg-rabbit-red/80 duration-300"
+            className="cursor-pointer w-full bg-black text-white p-2 rounded-lg font-semibold hover:bg-black/80 duration-300"
           >
             Sign Up
           </button>
@@ -81,7 +81,7 @@ const Register = () => {
             Already have an account?{" "}
             <Link
               to={"/login"}
-              className="text-rabbit-red underline "
+              className="text-blue-500 underline "
             >
               Login!
             </Link>

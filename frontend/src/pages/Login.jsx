@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import login from "../assets/login.webp";
 import { useState } from "react";
-import {toast} from "sonner"  
+// import {toast} from "sonner"  
 import { loginUser } from "../redux/slices/authSlice.js";
 import { useDispatch } from "react-redux";
 
@@ -10,15 +10,16 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
-    try {
-      toast.success("User Logined Successfully");
-    } catch (error) {
-      toast.error("Error Logging In user");
-      console.error("Error Logging In user:", error);
-    }
+
+    // const result = dispatch(loginUser({ email, password }));
+    // if (loginUser.fulfilled.match(result)) {
+    //   toast.success("User logged in successfully!");
+    // } else if (loginUser.rejected.match(result)) {
+    //   toast.error(result.payload?.message || "Error logging in user");
+    // }
   };
 
   return (
@@ -26,7 +27,7 @@ const Login = () => {
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-12">
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-md bg-white p-8 rounded-lg border-2 border-gray-300 shadow-md"
+          className="w-full max-w-md bg-white p-8 rounded-lg border border-gray-300 shadow-md"
         >
           <div className="flex justify-center mb-6">
             <h2 className="text-2xl font-medium">"Rabbit"</h2>
@@ -41,7 +42,7 @@ const Login = () => {
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border border-gray-300 rounded"
               placeholder="Enter your email address"
             />
           </div>
@@ -52,7 +53,7 @@ const Login = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border border-gray-300 rounded"
               placeholder="Enter your password"
             />
           </div>
@@ -67,7 +68,7 @@ const Login = () => {
           </div>
           <p className="mt-6 text-center text-sm">
             Don't have an account?{" "}
-            <Link to="/register" className="text-blue-500">
+            <Link to="/register" className="text-blue-500 underline">
               Register
             </Link>
           </p>

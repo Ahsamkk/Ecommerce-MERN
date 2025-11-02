@@ -1,9 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const userFromStorage = localStorage.getItem("userInfo")
-  ? JSON.parse(localStorage.getItem("userInfo"))
-  : null;
+let userFromStorage = null;
+
+try {
+  const storedUser = localStorage.getItem("userInfo");
+  userFromStorage = storedUser ? JSON.parse(storedUser) : null;
+} catch (error) {
+  console.error("Error reading user from localStorage:", error);
+  userFromStorage = null;
+}
 
 const initialGuestId =
   localStorage.getItem("guestId") || `guest_${new Date().getTime()}`;
@@ -26,10 +32,13 @@ export const loginUser = createAsyncThunk(
         `${import.meta.env.VITE_BACKEND_URL}/api/users/login`,
         userData
       );
-      localStorage.setItem("userInfo", JSON.stringify(response.data.user));
-      localStorage.setItem("userToken", JSON.stringify(response.data.token));
 
-      return response.data.user; // return user object
+      const { user, accessToken } = response.data.data;
+
+      localStorage.setItem("userInfo", JSON.stringify(user));
+      localStorage.setItem("userToken", JSON.stringify(accessToken));
+
+      return user;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -45,10 +54,13 @@ export const registerUser = createAsyncThunk(
         `${import.meta.env.VITE_BACKEND_URL}/api/users/register`,
         userData
       );
-      localStorage.setItem("userInfo", JSON.stringify(response.data.user));
-      localStorage.setItem("userToken", JSON.stringify(response.data.token));
 
-      return response.data.user; // return user object
+      const { user, accessToken } = response.data.data;
+
+      localStorage.setItem("userInfo", JSON.stringify(user));
+      localStorage.setItem("userToken", JSON.stringify(accessToken));
+
+      return user;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -83,7 +95,7 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.error = action.payload.message;
       })
       .addCase(registerUser.pending, (state) => {

@@ -19,7 +19,7 @@ const seedData = async () => {
 
     //Create a default admin User
     const createdUser = await User.create({
-      username: "AdminUser",
+      name: "AdminUser",
       email: "admin@gmail.com",
       password: "123456",
       role: "admin",
