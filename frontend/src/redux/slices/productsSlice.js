@@ -32,11 +32,11 @@ export const fetchProductsByFilters = createAsyncThunk(
     if (brand) query.append("brand", brand);
     if (limit) query.append("limit", limit);
 
-    const response = await axios.post(
+    const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString()}`
     );
-    console.log(response.data);
-    return response.data;
+
+    return response.data.data;
   }
 );
 
@@ -47,11 +47,11 @@ export const fetchProductDetails = createAsyncThunk(
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`
     );
-    return response.data;
+    return response.data.data;
   }
 );
 
-//Async thunk for fetch similar products
+//Async thunk for update products
 export const updateProduct = createAsyncThunk(
   "products/updateProduct",
   async (id, productData) => {
@@ -64,7 +64,7 @@ export const updateProduct = createAsyncThunk(
         },
       }
     );
-    return response.data;
+    return response.data.data;
   }
 );
 
@@ -76,7 +76,7 @@ export const fetchSimilarProducts = createAsyncThunk(
       `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/${id}`
     );
 
-    return response.data;
+    return response.data.data;
   }
 );
 

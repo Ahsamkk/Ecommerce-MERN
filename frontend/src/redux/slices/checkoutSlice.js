@@ -35,7 +35,7 @@ export const createCheckout = createAsyncThunk(
         }
       );
 
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.error("Error creating checkout session:", {
         message: error.message,

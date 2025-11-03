@@ -14,7 +14,7 @@ export const fetchAllOrders = createAsyncThunk(
           },
         }
       );
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -35,7 +35,7 @@ export const updateOrderStatus = createAsyncThunk(
           },
         }
       );
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

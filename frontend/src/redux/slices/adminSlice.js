@@ -11,7 +11,7 @@ export const fetchUsers = createAsyncThunk("admin/fetchUsers", async () => {
       },
     }
   );
-  return response.data;
+  return response.data.data;
 });
 
 // add user action
@@ -28,7 +28,7 @@ export const addUser = createAsyncThunk(
           },
         }
       );
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.error("Error creating user:", error);
       return rejectWithValue(error.response.data);
@@ -49,7 +49,7 @@ export const updateUser = createAsyncThunk(
         },
       }
     );
-    return response.data;
+    return response.data.data;
   }
 );
 

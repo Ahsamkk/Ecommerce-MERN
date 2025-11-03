@@ -13,7 +13,7 @@ export const fetchAdminProducts = createAsyncThunk(
         Authorization: USER_TOKEN,
       },
     });
-    return response.data;
+    return response.data.data;
   }
 );
 
@@ -30,7 +30,7 @@ export const createProduct = createAsyncThunk(
         },
       }
     );
-    return response.data;
+    return response.data.data;
   }
 );
 
@@ -47,7 +47,7 @@ export const updateProduct = createAsyncThunk(
         },
       }
     );
-    return response.data;
+    return response.data.data;
   }
 );
 //async thunk to delete a product

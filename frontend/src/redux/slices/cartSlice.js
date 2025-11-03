@@ -23,7 +23,7 @@ export const fetchCart = createAsyncThunk(
           params: { userId, guestId },
         }
       );
-      return response.data; // Return the cart data
+      return response.data.data; // Return the cart data
     } catch (error) {
       console.error("Error fetching cart:", error);
       return rejectWithValue(error.response.data);
@@ -43,7 +43,7 @@ export const addToCart = createAsyncThunk(
         `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
         { productId, quantity, size, color, guestId, userId }
       );
-      return response.data; // Return the updated cart data
+      return response.data.data; // Return the updated cart data
     } catch (error) {
       console.error("Error adding to cart:", error);
       return rejectWithValue(error.response.data);
@@ -63,7 +63,7 @@ export const updateCartItemQuantity = createAsyncThunk(
         `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
         { productId, quantity, size, color, guestId, userId }
       );
-      return response.data; // Return the updated cart data
+      return response.data.data; // Return the updated cart data
     } catch (error) {
       console.error("Error updating cart item:", error);
       return rejectWithValue(error.response.data);
@@ -85,7 +85,7 @@ export const removeFromCart = createAsyncThunk(
         data: { productId, quantity, size, color, guestId, userId },
       });
 
-      return response.data; // Return the updated cart data
+      return response.data.data; // Return the updated cart data
     } catch (error) {
       console.error("Error removing from cart:", error);
       return rejectWithValue(error.response.data);
@@ -107,7 +107,7 @@ export const mergeCart = createAsyncThunk(
           },
         }
       );
-      return response.data; // Return the merged cart data
+      return response.data.data; // Return the merged cart data
     } catch (error) {
       console.error("Error merging carts:", error);
       return rejectWithValue(error.response.data);

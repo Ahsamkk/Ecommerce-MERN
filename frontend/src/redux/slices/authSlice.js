@@ -33,7 +33,7 @@ export const loginUser = createAsyncThunk(
         userData
       );
 
-      const { user, accessToken } = response.data.data;
+      const { user, accessToken } = response.data;
 
       localStorage.setItem("userInfo", JSON.stringify(user));
       localStorage.setItem("userToken", JSON.stringify(accessToken));
@@ -55,7 +55,7 @@ export const registerUser = createAsyncThunk(
         userData
       );
 
-      const { user, accessToken } = response.data.data;
+      const { user, accessToken } = response.data;
 
       localStorage.setItem("userInfo", JSON.stringify(user));
       localStorage.setItem("userToken", JSON.stringify(accessToken));

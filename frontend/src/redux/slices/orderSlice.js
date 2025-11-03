@@ -14,7 +14,7 @@ export const fetchUserOrders = createAsyncThunk(
           },
         }
       );
-      return response.data; // Return the orders data
+      return response.data.data; // Return the orders data
     } catch (error) {
       console.error("Error fetching orders:", error);
       return rejectWithValue(error.response.data);
@@ -35,7 +35,7 @@ export const fetchOrderDetails = createAsyncThunk(
           },
         }
       );
-      return response.data;
+      return response.data.data;
     } catch (error) {
       console.error("Error fetching order details:", error);
       return rejectWithValue(error.response.data);
