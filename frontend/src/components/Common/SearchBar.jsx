@@ -1,20 +1,27 @@
 import { useState } from "react"
 import { HiMagnifyingGlass, HiMiniXMark } from "react-icons/hi2";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fetchProductsByFilters, setFilters } from "../../redux/slices/productsSlice.js";
 
 const SearchBar = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSearchToggle = () => {
-    setIsOpen(!isOpen)
-  }
+    setIsOpen(!isOpen);
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Search Term: ", searchTerm)
-    setIsOpen(false)
-  }
+    dispatch(setFilters({ search: searchTerm }));
+    dispatch(fetchProductsByFilters({ search: searchTerm }));
+    navigate(`/collections/all?search=${searchTerm}`);
+    setIsOpen(false);
+  };
 
   return (
     <div 
@@ -38,12 +45,12 @@ const SearchBar = () => {
             onClick={handleSearchToggle}
             className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
           >
-            <HiMiniXMark className="h-6 w-6"/>
+            <HiMiniXMark className="h-8 w-8 cursor-pointer"/>
           </button>
         </form>
       ) : (
         <button onClick={handleSearchToggle}>
-          <HiMagnifyingGlass className="h-6 w-6"/>
+          <HiMagnifyingGlass className="h-6 w-6 cursor-pointer"/>
         </button>
       )}
     </div>
