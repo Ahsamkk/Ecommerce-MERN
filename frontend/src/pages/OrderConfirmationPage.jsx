@@ -1,35 +1,23 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "../redux/slices/cartSlice.js";
 
-const checkout = {
-  _id: "12344",
-  createdAt: new Date(),
-  checkoutItems: [
-    {
-      productID: "1",
-      name: "Jacket",
-      color: "black",
-      size: "M",
-      price: 150,
-      quantity: 1,
-      image: "https://picsum.photos/150?random=1",
-    },
-    {
-      productID: "2",
-      name: "Jacket",
-      color: "black",
-      size: "M",
-      price: 200,
-      quantity: 2,
-      image: "https://picsum.photos/150?random=2",
-    },
-  ],
-  shippingAddress: {
-    address: "324 Genjam Street",
-    city: "Los Vegas",
-    country: "USA",
-  },
-};
 
 const OrderConfirmationPage = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {checkout} = useSelector( (state) => state.checkout)
+
+  useEffect( () => {
+    if(checkout && checkout._id){
+      dispatch(clearCart())
+      localStorage.removeItem("cart")
+    }else{
+      navigate("/my-order")
+    }
+  }, [checkout, dispatch, navigate  ])
 
   const calculateEstimatedDelivery = (createdAt) => {
     const orderDate = new Date(createdAt);
@@ -39,7 +27,7 @@ const OrderConfirmationPage = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-8 bg-white">
-      <h1 className="text-4xl font-bold text-center text-primary mb-8">
+      <h1 className="text-4xl font-bold text-center text-green-600 mb-8">
         Thank You for Your Order!
       </h1>
 

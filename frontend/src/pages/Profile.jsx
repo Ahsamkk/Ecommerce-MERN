@@ -1,15 +1,26 @@
+import { useDispatch, useSelector } from "react-redux";
 import MyOrdersPage from "./MyOrdersPage";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../redux/slices/authSlice.js";
+import { clearCart } from "../redux/slices/cartSlice.js";
 
 const Profile = () => {
+  const { user} = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const user  =  {name: "Anon", email: "anon@gmail.com"};
-  //const navigate = useNavigate();
-  //const dispatch = useDispatch();
+  useEffect( () => {
+    if(!user){
+      navigate("/login")
+    }
+  }, [user, navigate])
 
-    const handleLogout = () => {
-
-    };
+  const handleLogout = () => {
+    dispatch(logout())
+    dispatch(clearCart())
+    navigate("/login")
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -20,10 +31,10 @@ const Profile = () => {
             <h1 className="text-2xl md:text-3xl font-bold mb-4">
               {user?.name}
             </h1>
-            <p className="text-lg text-gray-600 mb-4">{user?.email}</p>
+            <p className="text-lg text-gray-800 mb-4">{user?.email}</p>
             <button
               onClick={handleLogout}
-              className="w-full bg-transparent text-red-500 border border-red-500 py-2 px-4 rounded hover:bg-red-600 hover:text-white duration-300 cursor-pointer"
+              className="w-full border bg-red-600 border-red-500 py-2 px-4 rounded text-white duration-300 cursor-pointer"
             >
               Logout
             </button>

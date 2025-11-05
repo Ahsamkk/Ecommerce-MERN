@@ -10,13 +10,13 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
-
   const { user, guestId } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
 
-  //Get redirect parameter and check if it's checout or something else
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  //Get redirect parameter and check if it's checkout
   const redirect = new URLSearchParams(location.search).get("redirect") || "/";
   const isCheckoutRedirect = redirect.includes("checkout");
 
@@ -90,7 +90,7 @@ const Login = () => {
           </div>
           <p className="mt-6 text-center text-sm">
             Don't have an account?{" "}
-            <Link to="/register" className="text-blue-500 underline">
+            <Link to={`/register?redirect=${encodeURIComponent(redirect)}`} className="text-blue-500 underline">
               Register
             </Link>
           </p>

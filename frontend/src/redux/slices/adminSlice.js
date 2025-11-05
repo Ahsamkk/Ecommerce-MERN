@@ -7,7 +7,9 @@ export const fetchUsers = createAsyncThunk("admin/fetchUsers", async () => {
     `${import.meta.env.VITE_BACKEND_URL}/api/admin/users`,
     {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        Authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("userToken")
+        )}`,
       },
     }
   );
@@ -24,7 +26,9 @@ export const addUser = createAsyncThunk(
         userData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${JSON.parse(
+              localStorage.getItem("userToken")
+            )}`,
           },
         }
       );
@@ -45,7 +49,9 @@ export const updateUser = createAsyncThunk(
       { name, email, role },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          Authorization: `Bearer ${JSON.parse(
+            localStorage.getItem("userToken")
+          )}`,
         },
       }
     );
@@ -59,7 +65,9 @@ export const deleteUser = createAsyncThunk("admin/deleteUser", async (id) => {
     `${import.meta.env.VITE_BACKEND_URL}/api/admin/users/${id}`,
     {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        Authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("userToken")
+        )}`,
       },
     }
   );
@@ -127,7 +135,7 @@ const adminSlice = createSlice({
       })
       .addCase(addUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.users.push(action.payload.user);
+        state.users.push(action.payload);
       })
       .addCase(addUser.rejected, (state, action) => {
         state.loading = false;

@@ -1,46 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
+import { fetchOrderDetails } from "../redux/slices/orderSlice.js";
 
 const OrderDetailsPage = () => {
-
   const { id } = useParams();
-  const [orderDetails, setOrderDetails] = useState(null);
-
+  const dispatch = useDispatch();
+  const {orderDetails, loading, error } = useSelector( (state) => state.orders)
+ 
   useEffect(() => {
-    const mockOrderDetails = {
-      _id: id,
-      createdAt: new Date(),
-      isPaid: false,
-      isDelivered: false,
-      paymentMethod: "Cash on Delivery",
-      shippingMethod: "Standard",
-      shippingAddress: { city: "New York", coutnry: "USA" },
-      orderItems: [
-        {
-          productId: "1",
-          name: "Hoodie",
-          price: 120,
-          quantity: 4,
-          image: "https://picsum.photos/150?random=1",
-        },
-        {
-          productId: "2",
-          name: "Shorts",
-          price: 120,
-          quantity: 4,
-          image: "https://picsum.photos/150?random=2",
-        },
-        {
-          productId: "3",
-          name: "Bandana",
-          price: 40,
-          quantity: 1,
-          image: "https://picsum.photos/150?random=3",
-        },
-      ],
-    };
-    setOrderDetails(mockOrderDetails);
-  }, [id]);
+    dispatch(fetchOrderDetails(id))
+  }, [dispatch, id]);
+
+  if(loading) return <p>Loading....</p>
+  if(error) return <p>Error: {error}</p>
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
@@ -72,7 +45,7 @@ const OrderDetailsPage = () => {
                 className={`${
                   orderDetails.isDelivered
                     ? "bg-green-100 text-green-700 "
-                    : "bg-red-100 text-red-700"
+                    : "bg-red-100 text-yellow-700"
                 } px-3 py-1 rounded-full text-start text-sm font-medium mb-2`}
               >
                 {orderDetails.isDelivered ? "Delivered" : "Pending"}

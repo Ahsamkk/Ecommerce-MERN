@@ -34,7 +34,9 @@ const createUser = asyncHandler(async (req, res) => {
     isAdmin,
   });
 
-  return res.status(201).json(201, newUser, "User created successfully");
+  return res
+    .status(201)
+    .json(new ApiResponse(201, newUser, "User created successfully"));
 });
 
 const updateUser = asyncHandler(async (req, res) => {

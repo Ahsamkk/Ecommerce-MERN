@@ -16,7 +16,7 @@ const ProductDetails = ({ productId }) => {
     (state) => state.products
   );
   const { user, guestId } = useSelector((state) => state.auth);
-  const [mainImage, setMainImage] = useState("");
+  const [mainImage, setMainImage] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -50,7 +50,7 @@ const ProductDetails = ({ productId }) => {
     if (!selectedColor || !selectedSize) {
       toast.error("Please choose a color and size before adding it to cart"),
         {
-          duration: 1000,
+          duration: 2000,
         };
       return;
     }

@@ -52,7 +52,7 @@ const updateCheckout = asyncHandler(async (req, res) => {
     checkout.isPaid = true;
     checkout.paymentStatus = paymentStatus;
     checkout.paymentDetails = paymentDetails;
-    checkout.paidAt = new Date.now();
+    checkout.paidAt = Date.now();
 
     await checkout.save();
 

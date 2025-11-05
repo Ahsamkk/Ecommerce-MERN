@@ -5,7 +5,7 @@ let userFromStorage = null;
 
 try {
   const storedUser = localStorage.getItem("userInfo");
-  userFromStorage = storedUser ? JSON.parse(storedUser) : null;
+  userFromStorage = storedUser ? JSON.parse(storedUser) : "something";
 } catch (error) {
   console.error("Error reading user from localStorage:", error);
   userFromStorage = null;
@@ -33,7 +33,7 @@ export const loginUser = createAsyncThunk(
         userData
       );
 
-      const { user, accessToken } = response.data;
+      const { user, accessToken } = response.data.data;
 
       localStorage.setItem("userInfo", JSON.stringify(user));
       localStorage.setItem("userToken", JSON.stringify(accessToken));
@@ -55,7 +55,7 @@ export const registerUser = createAsyncThunk(
         userData
       );
 
-      const { user, accessToken } = response.data;
+      const { user, accessToken } = response.data.data;
 
       localStorage.setItem("userInfo", JSON.stringify(user));
       localStorage.setItem("userToken", JSON.stringify(accessToken));
@@ -92,7 +92,6 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
