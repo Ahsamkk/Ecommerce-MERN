@@ -31,6 +31,7 @@ const createUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
+    //check if role or isAdmin
     isAdmin,
   });
 
