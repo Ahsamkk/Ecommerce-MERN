@@ -25,8 +25,8 @@ Version Control: Git + GitHub
 ⚙️ Installation & Setup
 
 1. Clone the repository
-   git clone https://github.com/<your-username>/<your-repo-name>.git
-   cd <your-repo-name>
+   git clone https://github.com/Ahsamkk/Ecommerce-MERN>.git
+   cd Ecommerce-MERN
 
 2. Install dependencies
 
