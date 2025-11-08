@@ -18,7 +18,7 @@ const NewArrivals = () => {
       try {
         const response = await apiRequest(
           "get",
-          "/api/products/new-arrivals"
+          "api/products/new-arrivals"
         );
         setNewArrivals(response);
       } catch (error) {
