@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "backend",
   "builds": [
     {
       "src": "package.json",
@@ -10,7 +9,7 @@
   ],
   "rewrites": [
     {
-      "src": "/(.*)",
+      "source": "/(.*)",
       "destination": "/"
     }
   ]
