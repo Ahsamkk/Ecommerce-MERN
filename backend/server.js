@@ -14,9 +14,10 @@ import adminRouter from "./routes/admin.route.js";
 import adminProductRouter from "./routes/adminProducts.route.js";
 import adminOrderRouter from "./routes/adminOrder.route.js";
 
+dotenv.config();
+
 const app = express();
 
-app.use(express.json());
 app.use(
   cors({
     origin: ["https://rabbit-ecommerce-xi.vercel.app", "http://localhost:5173"],
@@ -24,13 +25,12 @@ app.use(
   })
 );
 
+app.use(express.json());
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 //add aggregate paginate
-
-dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
