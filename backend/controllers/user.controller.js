@@ -107,17 +107,11 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
-  await User.findByIdAndUpdate(
-    req.user._id,
-    {
-      $unset: {
-        refreshToken: 1,
-      },
-    }
-    // {
-    //   new: true,
-    // }
-  );
+  await User.findByIdAndUpdate(req.user._id, {
+    $unset: {
+      refreshToken: 1,
+    },
+  });
 
   const options = {
     httpOnly: true,
@@ -160,7 +154,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       secure: true,
     };
 
-    const { accessToken, newRefreshToken } =
+    const { accessToken, refreshToken: newRefreshToken } =
       await generateAccessAndRefreshTokens(user._id);
 
     user.refreshToken = newRefreshToken;

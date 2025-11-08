@@ -10,7 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const { user, guestId } = useSelector((state) => state.auth);
+  const { user, guestId, loading } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
 
   const navigate = useNavigate();
@@ -85,7 +85,7 @@ const Login = () => {
               type="submit"
               className="w-full bg-black text-white p-2 px-6 rounded-lg font-semibold cursor-pointer hover:bg-gray-800 transition"
             >
-              Sign In
+              {loading ? "Loading..." : "Sign In"}
             </button>
           </div>
           <p className="mt-6 text-center text-sm">

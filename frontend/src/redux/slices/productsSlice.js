@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { apiRequest } from "../../utils/api.js";
 
 //Async Thunk to get products based on Collections and filters
 export const fetchProductsByFilters = createAsyncThunk(
@@ -32,11 +32,11 @@ export const fetchProductsByFilters = createAsyncThunk(
     if (brand) query.append("brand", brand);
     if (limit) query.append("limit", limit);
 
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products?${query.toString()}`
+    const response = await apiRequest(
+      "get",
+      `/api/products?${query.toString()}`
     );
-
-    return response.data.data;
+    return response;
   }
 );
 
@@ -44,29 +44,23 @@ export const fetchProductsByFilters = createAsyncThunk(
 export const fetchProductDetails = createAsyncThunk(
   "products/fetchProductDetails",
   async (id) => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`
-    );
-    return response.data.data;
+    const response = await apiRequest("get", `/api/products/${id}`);
+    return response;
   }
 );
 
 //Async thunk for update products
 export const updateProduct = createAsyncThunk(
   "products/updateProduct",
-  async (id, productData) => {
-    const response = await axios.put(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`,
+  async ({ id, productData }) => {
+    const token = JSON.parse(localStorage.getItem("userToken"));
+    const response = await apiRequest(
+      "put",
+      `/api/products/${id}`,
       productData,
-      {
-        headers: {
-          Authorization: `Bearer ${JSON.parse(
-            localStorage.getItem("userToken")
-          )}`,
-        },
-      }
+      token
     );
-    return response.data.data;
+    return response;
   }
 );
 
@@ -74,11 +68,8 @@ export const updateProduct = createAsyncThunk(
 export const fetchSimilarProducts = createAsyncThunk(
   "products/fetchSimilarProducts",
   async ({ id }) => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/api/products/similar/${id}`
-    );
-
-    return response.data.data;
+    const response = await apiRequest("get", `/api/products/similar/${id}`);
+    return response;
   }
 );
 

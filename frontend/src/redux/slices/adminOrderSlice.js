@@ -1,69 +1,65 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { apiRequest } from "../../utils/api.js";
 
-//Fetch all orders (admin only)
+// fetch all order (admin only)
 export const fetchAllOrders = createAsyncThunk(
   "admin/fetchAllOrders",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders`,
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("userToken")
-            )}`,
-          },
-        }
+      const token = JSON.parse(localStorage.getItem("userToken"));
+      const response = await apiRequest(
+        "get",
+        "/api/admin/orders",
+        null,
+        token
       );
-      return response.data.data;
+      return response;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(
+        error.response?.data || { message: error.message }
+      );
     }
   }
 );
 
-//Update order delivery status
+// Update order delivery status
 export const updateOrderStatus = createAsyncThunk(
   "admin/updateOrderStatus",
   async ({ id, status }, { rejectWithValue }) => {
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
+      const token = JSON.parse(localStorage.getItem("userToken"));
+      const response = await apiRequest(
+        "put",
+        `/api/admin/orders/${id}`,
         { status },
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("userToken")
-            )}`,
-          },
-        }
+        token
       );
-      return response.data.data;
+      return response;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(
+        error.response?.data || { message: error.message }
+      );
     }
   }
 );
 
-//Delete order
+// Delete order
 export const deleteOrder = createAsyncThunk(
   "admin/deleteOrder",
   async (id, { rejectWithValue }) => {
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("userToken")
-            )}`,
-          },
-        }
+      const token = JSON.parse(localStorage.getItem("userToken"));
+      const response = await apiRequest(
+        "delete",
+        `/api/admin/orders/${id}`,
+        null,
+        token
       );
-      return id;
+      return response;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(
+        error.response?.data || { message: error.message }
+      );
     }
   }
 );

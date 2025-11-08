@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import PaypalButton from "./PaypalButton"
 import { useDispatch, useSelector } from "react-redux";
 import { createCheckout } from "../../redux/slices/checkoutSlice.js";
-import axios from "axios";
+import { apiRequest } from "../../utils/api.js";
 
 const Checkout = () => {
 
@@ -33,7 +33,7 @@ const Checkout = () => {
   const handleCreateCheckout = async (e) => {
     e.preventDefault();
     try {
-      const res = await dispatch(
+      const response = await dispatch(
         createCheckout({
           checkoutItems: cart.products,
           shippingAddress,
@@ -42,30 +42,26 @@ const Checkout = () => {
         })
       );
 
-      if (res.payload && res.payload._id) {
-        setCheckoutId(res.payload._id);
-        handlePaymentSuccess(res.payload)
+      if (response.payload && response.payload._id) {
+        setCheckoutId(response.payload._id);
+        handlePaymentSuccess(response.payload);
       }
-      
-      
     } catch (err) {
       console.error("Checkout creation failed:", err);
     }
-  }
+  };
 
   const handlePaymentSuccess = async (details) => {
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${details._id}/pay`,
+      const token = JSON.parse(localStorage.getItem("userToken"));
+      const response = await apiRequest(
+        "put",
+        `/api/checkout/${details._id}/pay`,
         { paymentStatus: "paid", paymentDetails: details },
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("userToken"))}`,
-          },
-        }
+        token
       );
 
-      if (response.status === 200) {
+      if (response) {
         await handleFinalizeCheckout(details._id);
       }
     } catch (err) {
@@ -75,17 +71,15 @@ const Checkout = () => {
 
   const handleFinalizeCheckout = async (id) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/checkout/${id}/finalize`,
+      const token = JSON.parse(localStorage.getItem("userToken"));
+      const response = await apiRequest(
+        "post",
+        `/api/checkout/${id}/finalize`,
         {},
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("userToken"))}`,
-          },
-        }
+        token
       );
 
-      if (response.status === 200) {
+      if (response) {
         navigate("/order-confirmation");
       }
     } catch (err) {

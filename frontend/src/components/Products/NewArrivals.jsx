@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router";
-import axios from "axios";
+import { apiRequest } from "../../utils/api.js";
 
 const NewArrivals = () => {
   const scrollRef = useRef(null);
@@ -16,14 +16,15 @@ const NewArrivals = () => {
   useEffect(() => {
     const fetchNewArrivals = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/api/products/new-arrivals`
+        const response = await apiRequest(
+          "get",
+          "/api/products/new-arrivals"
         );
-        setNewArrivals(response.data.data);
+        setNewArrivals(response);
       } catch (error) {
         console.error("Error fetching new arrivals:", error);
       }
-    };
+    }
 
     fetchNewArrivals();
   }, []);

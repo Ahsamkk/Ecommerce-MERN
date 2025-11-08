@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { apiRequest } from "../../utils/api.js";
 
 //Helper function to get the cart from localStorage
 const loadCartFromStorage = () => {
@@ -17,13 +17,11 @@ export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
   async ({ userId, guestId }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
-        {
-          params: { userId, guestId },
-        }
-      );
-      return response.data.data; // Return the cart data
+      const response = await apiRequest("get", "/api/cart/", {
+        userId,
+        guestId,
+      });
+      return response;
     } catch (error) {
       console.error("Error fetching cart:", error);
       return rejectWithValue(error.response.data);
@@ -39,11 +37,15 @@ export const addToCart = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart/`,
-        { productId, quantity, size, color, guestId, userId }
-      );
-      return response.data.data; // Return the updated cart data
+      const response = await apiRequest("post", "/api/cart/", {
+        productId,
+        quantity,
+        size,
+        color,
+        guestId,
+        userId,
+      });
+      return response;
     } catch (error) {
       console.error("Error adding to cart:", error);
       return rejectWithValue(error.response.data);
@@ -59,11 +61,15 @@ export const updateCartItemQuantity = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-        { productId, quantity, size, color, guestId, userId }
-      );
-      return response.data.data; // Return the updated cart data
+      const response = await apiRequest("put", "/api/cart", {
+        productId,
+        quantity,
+        size,
+        color,
+        guestId,
+        userId,
+      });
+      return response;
     } catch (error) {
       console.error("Error updating cart item:", error);
       return rejectWithValue(error.response.data);
@@ -79,13 +85,15 @@ export const removeFromCart = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios({
-        method: "DELETE",
-        url: `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
-        data: { productId, quantity, size, color, guestId, userId },
+      const response = await apiRequest("delete", "/api/cart", {
+        productId,
+        quantity,
+        size,
+        color,
+        guestId,
+        userId,
       });
-
-      return response.data.data; // Return the updated cart data
+      return response;
     } catch (error) {
       console.error("Error removing from cart:", error);
       return rejectWithValue(error.response.data);
@@ -98,18 +106,14 @@ export const mergeCart = createAsyncThunk(
   "cart/mergeCart",
   async ({ guestId, user }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart/merge`,
+      const token = JSON.parse(localStorage.getItem("userToken"));
+      const response = await apiRequest(
+        "post",
+        "/api/cart/merge",
         { guestId, user },
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("userToken")
-            )}`,
-          },
-        }
+        token
       );
-      return response.data.data; // Return the merged cart data
+      return response;
     } catch (error) {
       console.error("Error merging carts:", error);
       return rejectWithValue(error.response.data);

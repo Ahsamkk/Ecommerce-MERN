@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { apiRequest } from "../../utils/api.js";
 
 //Async thunk for creating a checkout session
 export const createCheckout = createAsyncThunk(
@@ -25,19 +25,15 @@ export const createCheckout = createAsyncThunk(
         paymentDetails,
       };
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/checkout`,
+      const token = JSON.parse(localStorage.getItem("userToken"));
+      const response = await apiRequest(
+        "post",
+        "/api/checkout",
         checkoutData,
-        {
-          headers: {
-            Authorization: `Bearer ${JSON.parse(
-              localStorage.getItem("userToken")
-            )}`,
-          },
-        }
+        token
       );
 
-      return response.data.data;
+      return response;
     } catch (error) {
       console.error("Error creating checkout session:", {
         message: error.message,
